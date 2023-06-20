@@ -35,19 +35,19 @@ type IOLimit struct {
 // 设备需要设置的读写速率
 type IOInfo struct {
 	// 按每秒读取块设备的数据量设定上限
-	Rbps uint
+	Rbps uint64
 	// 按每秒读操作次数设定上限
-	Riops uint
+	Riops uint64
 	// 按每秒写入块设备的数据量设定上限
-	Wbps uint
+	Wbps uint64
 	// 按每秒写操作次数设定上限
-	Wiops uint
+	Wiops uint64
 }
 
 // # ls -l /dev/sda
 // brw-rw---- 1 root disk 8, 0 Jun  9 15:16 /dev/sda1
 // 主子设备号，linux 系统中用来标识设备的 id
 type DeviceInfo struct {
-	Major uint
-	Minor uint
+	Major uint64
+	Minor uint64
 }

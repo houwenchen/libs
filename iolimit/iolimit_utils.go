@@ -64,8 +64,8 @@ func GetDeviceNumber(deviceName string) (*DeviceInfo, error) {
 		return nil, err
 	}
 	return &DeviceInfo{
-		Major: uint(stat.Rdev / 256),
-		Minor: uint(stat.Rdev % 256),
+		Major: uint64(stat.Rdev / 256),
+		Minor: uint64(stat.Rdev % 256),
 	}, nil
 }
 
