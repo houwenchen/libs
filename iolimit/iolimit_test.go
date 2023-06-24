@@ -20,6 +20,13 @@ func TestGetDeviceNum(t *testing.T) {
 	fmt.Println(dInfo)
 }
 
+func TestGetContainerPathForV1(t *testing.T) {
+	podUid := "74eeef52-8448-46c4-881c-da582fbe5a79"
+	podPath, _ := getPodCGPathForV1(podUid)
+	cpaths, _ := getContainerPathForV1(podPath)
+	fmt.Println(cpaths)
+}
+
 func TestV2E2E(t *testing.T) {
 	// 定义 cases
 	tests := map[string]struct {

@@ -50,18 +50,30 @@ func NewIOLimitV1(version CGroupVersion, podUid string, ioInfo *IOInfo, deviceNa
 }
 
 func (i *IOLimitV1) SetIOLimit() error {
-	if err := i.setRbps(); err != nil {
+	paths, err := getContainerPathForV1(i.Path)
+	if err != nil {
 		return err
 	}
-	if err := i.setRiops(); err != nil {
-		return err
+
+	podCGPath := i.Path
+
+	for _, path := range paths {
+		i.Path = path
+		if err := i.setRbps(); err != nil {
+			return err
+		}
+		if err := i.setRiops(); err != nil {
+			return err
+		}
+		if err := i.setWbps(); err != nil {
+			return err
+		}
+		if err := i.setWiops(); err != nil {
+			return err
+		}
 	}
-	if err := i.setWbps(); err != nil {
-		return err
-	}
-	if err := i.setWiops(); err != nil {
-		return err
-	}
+
+	i.Path = podCGPath
 
 	return nil
 }
@@ -163,4 +175,22 @@ func getPodCGPathForV1(podUid string) (string, error) {
 	}
 
 	return "", errors.New("get pod cgroup path failed, pod's uid is: " + podUid)
+}
+
+// cgroup v1 时需要进入 container 的路径下设置
+func getContainerPathForV1(podPath string) ([]string, error) {
+	containerPaths := make([]string, 0)
+
+	dirEntries, err := os.ReadDir(podPath)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, dirEntry := range dirEntries {
+		if dirEntry.IsDir() {
+			containerPaths = append(containerPaths, filepath.Join(podPath, dirEntry.Name()))
+		}
+	}
+
+	return containerPaths, nil
 }
