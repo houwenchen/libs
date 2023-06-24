@@ -79,10 +79,6 @@ func (i *IOLimitV1) SetIOLimit() error {
 }
 
 func (i *IOLimitV1) setRbps() error {
-	if i.IOInfo.Rbps == 0 {
-		return nil
-	}
-
 	filePath := filepath.Join(i.Path, rbpsFile)
 	prem, exist := FilePerm(filePath)
 	if !exist {
@@ -98,10 +94,6 @@ func (i *IOLimitV1) setRbps() error {
 }
 
 func (i *IOLimitV1) setRiops() error {
-	if i.IOInfo.Riops == 0 {
-		return nil
-	}
-
 	filePath := filepath.Join(i.Path, riopsFile)
 	prem, exist := FilePerm(filePath)
 	if !exist {
@@ -117,10 +109,6 @@ func (i *IOLimitV1) setRiops() error {
 }
 
 func (i *IOLimitV1) setWbps() error {
-	if i.IOInfo.Wbps == 0 {
-		return nil
-	}
-
 	filePath := filepath.Join(i.Path, wbpsFile)
 	prem, exist := FilePerm(filePath)
 	if !exist {
@@ -136,10 +124,6 @@ func (i *IOLimitV1) setWbps() error {
 }
 
 func (i *IOLimitV1) setWiops() error {
-	if i.IOInfo.Wiops == 0 {
-		return nil
-	}
-
 	filePath := filepath.Join(i.Path, wiopsFile)
 	prem, exist := FilePerm(filePath)
 	if !exist {
